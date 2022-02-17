@@ -97,10 +97,7 @@ server {
 " > /home/ubuntu/default3200
 
 sudo cp /etc/nginx/sites-enabled/default /home/ubuntu/default.original
-#sudo chown ubuntu /etc/nginx/sites-enabled/default
 sudo cp /home/ubuntu/default3200 /etc/nginx/sites-enabled/default
-#sudo chown ubuntu /etc/nginx/sites-enabled/default
 sudo chmod 644 /etc/nginx/sites-enabled/default
 sudo rm /home/ubuntu/default3200
-#su ubuntu
 sudo systemctl restart nginx
