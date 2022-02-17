@@ -699,5 +699,4 @@ Possuir as ferramentas e tecnologias já citadas anteriormente, devidamente inst
 
 
 ### Agradecimentos
-- Ao famoso ***"chefinho"*** por todo o apoio e paciência:laughing::laughing::laughing:
-[<img src="https://avatars.githubusercontent.com/u/39917584?v=4" width=115 > <br> <sub> Weslley Ferreira</sub>](https://github.com/weslleyfs) 
+- Ao famoso ***"chefinho"*** [<img src="https://avatars.githubusercontent.com/u/39917584?v=4" width=115 > <sub></sub>](https://github.com/weslleyfs) por todo o apoio e paciência:laughing::laughing::laughing:
