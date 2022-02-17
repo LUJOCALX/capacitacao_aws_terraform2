@@ -95,60 +95,6 @@ resource "aws_instance" "ljc-ec2-az-c" {
 }
 
 
-
-
-# data "aws_caller_identity" "current" {}
-
-# resource "aws_s3_bucket" "ljc-tfstate-remote-terraform" {
-
-# bucket = "ljc-tfstate-remote-terraform"
-
-# # versioning {
-
-# #     enabled = true
-
-# # }
-
-# tags = {
-
-#     Descricao = "Armazena o terraform tfstate remotamente"
-#     UsadoPor = "Terraform"
-#     Owner = "ljc"
-# }
-# }
-
-# output "remote_state_bucket" {
-
-#     value = aws_s3_bucket.remote-state.bucket
-# }
-
-# output "remote_state_bucket_arn" {
-
-#     value = aws_s3_bucket.remote-state.arn
-# }
-
-# terraform {
-#   backend "s3" {
-#     bucket = "${aws_s3_bucket.remote-state.bucket}"
-#     key    = "tfstate_remoto/terraform.tfstate"
-#     region = "us-east-1"
-#   }
-# }
-
-# terraform {
-#   backend "s3" {}
-# }
-
-# data "terraform_remote_state" "state" {
-#   backend = "s3"
-#   config {
-#     bucket     = aws_s3_bucket.remote-state.bucket
-#     region     = "us-east-1"
-#     key        = "tfstate-remoto/tfstate/terraform.tfstate"
-#   }
-# }
-
-
 terraform {
   backend "s3" {
     bucket = "ljc-tfstate-remote-terraform"

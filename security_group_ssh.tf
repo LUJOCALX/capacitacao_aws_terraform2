@@ -4,9 +4,6 @@
 # ingress = [  # inbound - de fora (internet) para dentro da da maquina
 # egress = [ # outbound - de dentro nda maquina, para fora (internet)
 
-#data "http" "myip" {
-#  url = "http://ipv4.icanhazip.com" # outra opção "https://ifconfig.me"
-#}
 
 resource "aws_security_group" "allow_ssh" {
   name        = "allow_ssh_vpc_terraform"
@@ -19,7 +16,7 @@ resource "aws_security_group" "allow_ssh" {
       from_port   = 22
       to_port     = 22
       protocol    = "tcp"
-      cidr_blocks     = ["${chomp(data.http.myip.body)}/32"] # pega meu IP dinamicamente
+      cidr_blocks = ["${chomp(data.http.myip.body)}/32"] # pega meu IP dinamicamente
       #cidr_blocks      = ["0.0.0.0/0"]
       ipv6_cidr_blocks = ["::/0"]
       prefix_list_ids  = null,

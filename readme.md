@@ -43,10 +43,41 @@ Plataformas e Tecnologias que utilizamos para desenvolver este projeto:
 
 ## Explicação
 
->- A pasta **s3tfstate** possui o arquivo main.tf com o código necessário para efetuar a criação via terraform do **bucket S3 sem acesso via internet e com o versionamento ativado.** Este bucket foi criado para permitir o armazenamento e versionamento  remoto do **tfstate** do terraform conforme especificado. 
+- A pasta **s3tfstate** possui o arquivo main.tf com o código necessário para efetuar a criação via terraform do **bucket S3 sem acesso via internet e com o versionamento ativado.** Este bucket foi criado para permitir o armazenamento e versionamento  remoto do **tfstate** do terraform conforme especificado. 
 **Obs:** *Somente após a criação deste bucket é que devem ser criados os demais recursos da infraestrutura. Temos esta dependência para que não haja erro na execução.*
 
->- Na raiz do repositório, temos mais 7 arquivos deste projeto:
+```
+provider "aws" {
+  region = "us-east-1"
+}
+
+data "aws_caller_identity" "current" {}
+
+resource "aws_s3_bucket" "ljc-tfstate-remote-terraform" {
+
+  bucket = "ljc-tfstate-remote-terraform"
+
+  tags = {
+
+    Descricao = "Armazena o terraform tfstate remotamente"
+    UsadoPor  = "Terraform"
+    Owner     = "ljc"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "versionamento" {
+  bucket = aws_s3_bucket.ljc-tfstate-remote-terraform.id
+
+  versioning_configuration {
+
+    status = "Enabled"
+
+  }
+}
+
+```
+
+- Na raiz do repositório, temos mais 7 arquivos deste projeto:
 >
 **data.tf**
 >
@@ -71,15 +102,18 @@ data "http" "myip" {
   url = "http://ipv4.icanhazip.com"
 }
 ```
+>
 **keypair.tf**
+>
 ```
 resource "aws_key_pair" "deployer" {
   key_name   = "curso_criacao_ambiente_terraform"
   public_key = file("C:/users/lucio/.ssh/id_rsa.pub")
 }
 ```
-
+>
 **security_group.ssh.tf**
+>
 ```
 # https://registry.terraform.io/modules/terraform-aws-modules/security-group/aws/latest/submodules/ssh#input_auto_computed_egress_rules
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
@@ -87,9 +121,6 @@ resource "aws_key_pair" "deployer" {
 # ingress = [  # inbound - de fora (internet) para dentro da da maquina
 # egress = [ # outbound - de dentro nda maquina, para fora (internet)
 
-#data "http" "myip" {
-#  url = "http://ipv4.icanhazip.com" # outra opção "https://ifconfig.me"
-#}
 
 resource "aws_security_group" "allow_ssh" {
   name        = "allow_ssh_vpc_terraform"
@@ -102,7 +133,7 @@ resource "aws_security_group" "allow_ssh" {
       from_port   = 22
       to_port     = 22
       protocol    = "tcp"
-      cidr_blocks     = ["${chomp(data.http.myip.body)}/32"] # pega meu IP dinamicamente
+      cidr_blocks = ["${chomp(data.http.myip.body)}/32"] # pega meu IP dinamicamente
       #cidr_blocks      = ["0.0.0.0/0"]
       ipv6_cidr_blocks = ["::/0"]
       prefix_list_ids  = null,
@@ -364,60 +395,6 @@ resource "aws_instance" "ljc-ec2-az-c" {
 }
 
 
-
-
-# data "aws_caller_identity" "current" {}
-
-# resource "aws_s3_bucket" "ljc-tfstate-remote-terraform" {
-
-# bucket = "ljc-tfstate-remote-terraform"
-
-# # versioning {
-
-# #     enabled = true
-
-# # }
-
-# tags = {
-
-#     Descricao = "Armazena o terraform tfstate remotamente"
-#     UsadoPor = "Terraform"
-#     Owner = "ljc"
-# }
-# }
-
-# output "remote_state_bucket" {
-
-#     value = aws_s3_bucket.remote-state.bucket
-# }
-
-# output "remote_state_bucket_arn" {
-
-#     value = aws_s3_bucket.remote-state.arn
-# }
-
-# terraform {
-#   backend "s3" {
-#     bucket = "${aws_s3_bucket.remote-state.bucket}"
-#     key    = "tfstate_remoto/terraform.tfstate"
-#     region = "us-east-1"
-#   }
-# }
-
-# terraform {
-#   backend "s3" {}
-# }
-
-# data "terraform_remote_state" "state" {
-#   backend = "s3"
-#   config {
-#     bucket     = aws_s3_bucket.remote-state.bucket
-#     region     = "us-east-1"
-#     key        = "tfstate-remoto/tfstate/terraform.tfstate"
-#   }
-# }
-
-
 terraform {
   backend "s3" {
     bucket = "ljc-tfstate-remote-terraform"
@@ -443,6 +420,7 @@ output "aws_instance_e_ssh" {
 output "Meu_IP" {
   value = ["${chomp(data.http.myip.body)}"]
 }
+
 ```
 
 **readme.md**
