@@ -7,7 +7,7 @@
  <a href="#tecnologias">Tecnologias</a> |
  <a href="#explicação">Explicação</a> |
  <a href="#utilização">Utilização</a> |
- <a href="#agradecimento">Agradecimento</a>
+ <a href="#agradecimentos">Agradecimentos</a>
 </p>
 
 
@@ -47,13 +47,13 @@ Plataformas e Tecnologias que utilizamos para desenvolver este projeto:
 **Obs:** *Somente após a criação deste bucket é que devem ser criados os demais recursos da infraestrutura. Temos esta dependência para que não haja erro na execução.*
 
 >- Na raiz do repositório, temos mais 7 arquivos deste projeto:
->**data.tf**
->**keypair.tf**
->**security_group.ssh.tf**
->**vpc.tf**
->**main.tf**
->**readme.md**
->**.gitignore**
+>-**data.tf**
+>-**keypair.tf**
+>-**security_group.ssh.tf**
+>-**vpc.tf**
+>-**main.tf**
+>-**readme.md**
+>-**.gitignore**
 
 
 >- A pasta **userdada** possui **3** arquivos (**nginx_a_3200.sh**, **nginx_a_3300.sh**, **nginx_a_3400.sh**).
