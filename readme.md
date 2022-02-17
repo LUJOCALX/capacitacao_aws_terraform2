@@ -45,7 +45,9 @@ Plataformas e Tecnologias que utilizamos para desenvolver este projeto:
 
 - A pasta **s3tfstate** possui o arquivo main.tf com o código necessário para efetuar a criação via terraform do **bucket S3 sem acesso via internet e com o versionamento ativado.** Este bucket foi criado para permitir o armazenamento e versionamento  remoto do **tfstate** do terraform conforme especificado. 
 **Obs:** *Somente após a criação deste bucket é que devem ser criados os demais recursos da infraestrutura. Temos esta dependência para que não haja erro na execução.*
-
+>
+**main.tf**
+>
 ```
 provider "aws" {
   region = "us-east-1"
@@ -77,9 +79,11 @@ resource "aws_s3_bucket_versioning" "versionamento" {
 
 ```
 
-- Na raiz do repositório, temos mais 7 arquivos deste projeto:
+- Na raiz do repositório, temos mais **7 arquivos** deste projeto. São eles:
 >
 **data.tf**
+>
+É o Arquivo que busca a ami filtra a ami mais recente a ser utilizada dados os critérios de busca definidos. Também referencia a url http://ipv4.icanhazip.com que utilizamos no projeto para trazer o ip da estação de trabalho onde o código está sendo executado.
 >
 ```
 data "aws_ami" "ubuntu" {
@@ -105,6 +109,8 @@ data "http" "myip" {
 >
 **keypair.tf**
 >
+É o Arquivo utilizado para enviar a chave publica para a AWS (Key Pair).
+>
 ```
 resource "aws_key_pair" "deployer" {
   key_name   = "curso_criacao_ambiente_terraform"
@@ -113,6 +119,20 @@ resource "aws_key_pair" "deployer" {
 ```
 >
 **security_group.ssh.tf**
+>
+É o Arquivo utilizado para liberação das portas de acesso necessárias para a aplicação.
+
+Portas de entrada (ingress)
+- **22** - *SSH*
+- **443** - *HTTPS*
+- **80** - *HTTP*
+- **3200** - *nginx az-a*
+- **3300** - *nginx az-b*
+- **3400** - *nginx az-c*
+
+Portas de saída (egress)
+- **0** - liberação de acesso irrestrito para a rede interna.
+
 >
 ```
 # https://registry.terraform.io/modules/terraform-aws-modules/security-group/aws/latest/submodules/ssh#input_auto_computed_egress_rules
@@ -216,7 +236,11 @@ resource "aws_security_group" "allow_ssh" {
   }
 }
 ```
+>
 **vpc.tf**
+>
+É o Arquivo responsável pela criação da infraestrutura de rede. Efetua a criação da *vpc* **ljc_vpc_tf**, das *subnets* **"ljc_subnet_a**, **"ljc_subnet_c**, "**ljc_subnet_c**, uma em cada AZ, o *internet gateway* **aws_internet_gateway** para a saida para a internet, a route table **aws_route_table** e faz a associação das subnets com esta route table através do recurso **aws_route_table_association**.
+>
 ```
 resource "aws_vpc" "ljc_vpc_tf" {
   cidr_block           = "172.16.0.0/16"
@@ -296,7 +320,9 @@ resource "aws_route_table_association" "rtassoc_subnet_azc" {
   route_table_id = aws_route_table.public.id
 }
 ```
+>
 **main.tf**
+>
 ```
 provider "aws" {
   region = "us-east-1"
@@ -422,13 +448,16 @@ output "Meu_IP" {
 }
 
 ```
-
+>
 **readme.md**
-```
-
-```
-
+>
+É o Arquivo destinado a documentação e modo de utilização do código.
+>
 **.gitignore**
+>
+É o Arquivo que informa ao git quais arquivos não devem ser enviados ao repositório no momento do **"add/commit/push"** por motivos de segurança ou por não haver necessidade. Utilizado o site gitignore.io para a geração do arquivo.
+>
+
 ```
 
 # Created by https://www.toptal.com/developers/gitignore/api/terraform,ansible,java,linux,macos
@@ -543,8 +572,8 @@ terraform.rc
 
 # End of https://www.toptal.com/developers/gitignore/api/terraform,ansible,java,linux,macos
 ```
->- A pasta **userdada** possui **3** arquivos (**nginx_a_3200.sh**, **nginx_a_3300.sh**, **nginx_a_3400.sh**).
-> Estes arquivos são responsáveis pela execução dos comandos de instalação do nginx, execução do start do mesmo, da criação e disponibilização do arquivo customizado de apontamento de portas (**/etc/nginx/sites-enabled/default**), e restart do nginx para iniciar em portas diferentes das defaut da aplicação. No caso deste projeto, o nginx das 3 instâncias EC2 criadas estão subindo nas portas, 3200, 3300 e 3400 respectivamente.
+- A pasta **userdada** possui **3** arquivos (**nginx_a_3200.sh**, **nginx_a_3300.sh**, **nginx_a_3400.sh**).
+ Estes arquivos são responsáveis pela execução dos comandos de instalação do nginx, execução do start do mesmo, da criação e disponibilização do arquivo customizado de apontamento de portas (**/etc/nginx/sites-enabled/default**), e restart do nginx para iniciar em portas diferentes das defaut da aplicação. No caso deste projeto, o nginx das 3 instâncias EC2 criadas estão subindo nas portas, 3200, 3300 e 3400 respectivamente.
 
 ```
 #!/bin/bash
@@ -660,8 +689,15 @@ Possuir as ferramentas e tecnologias já citadas anteriormente, devidamente inst
 
 **1.** Faça o clone do repositorio para sua maquina
 
->- git clone **https://github.com/LUJOCALX/capacitacao_aws_terraform.git**
+- Repositório **https://github.com/LUJOCALX/capacitacao_aws_terraform.git**
+
+- Abra o gitbash na pasta s3tfstate e execute o terraform init, terraform apply para gerar o bucket S3 necessário para armazenar e versionar o tfstate.
+
+- Na pasta raiz execute os mesmos comandos para a criação dos demais componentes da infraestrutura e aplicação.
+
+- Entrar no console da AWS e verificar a criação do Bucket S3 e o arquivo tfstate, da VPC, Subnets, Internet Gateway, Security Groups, Route table, associações, Key Pair, EC2, User Data estão ok. Após isto, efetuar o acesso as instâncias EC2 via ssh com os links disponibilizado nos outputs, e acessar via browse os nginx nas portas definidas.
 
 
 ### Agradecimentos
-- [Weslley](https://github.com/weslleyfs) por todo o apoio;
+- Ao famoso ***"chefinho"*** por todo o apoio e paciência:laughing::laughing::laughing:
+|[<img src="https://avatars.githubusercontent.com/u/39917584?v=4" width=115 > <br> <sub> Weslley Ferreira</sub>](https://github.com/weslleyfs) 
