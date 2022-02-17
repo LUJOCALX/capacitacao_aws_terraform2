@@ -703,5 +703,6 @@ Possuir as ferramentas e tecnologias já citadas anteriormente, devidamente inst
 
 |[<img src="https://avatars.githubusercontent.com/u/39917584?v=4" width=115 > <BR> Weslley Ferreira<sub></sub>](https://github.com/weslleyfs)| 
 | -------- |
-por todo o apoio e paciência. :clap::clap::clap:
+
+- Por todo o apoio e paciência. :clap::clap::clap:
 
