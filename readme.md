@@ -46,7 +46,7 @@ Plataformas e Tecnologias que utilizamos para desenvolver este projeto:
 >- A pasta **s3tfstate** possui o arquivo main.tf com o código necessário para efetuar a criação via terraform do **bucket S3 sem acesso via internet e com o versionamento ativado.** Este bucket foi criado para permitir o armazenamento e versionamento  remoto do **tfstate** do terraform conforme especificado. 
 **Obs:** *Somente após a criação deste bucket é que devem ser criados os demais recursos da infraestrutura. Temos esta dependência para que não haja erro na execução.*
 
-> - Na raiz do repositório, temos mais 7 arquivos deste projeto:
+>- Na raiz do repositório, temos mais 7 arquivos deste projeto:
 **data.tf**
 zzxcz
 **keypair.tf**
