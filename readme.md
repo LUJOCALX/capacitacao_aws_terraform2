@@ -19,13 +19,16 @@
 
 - Disponibilizar a infraestrutura proposta a seguir na AWS utilizando o Terraform. Segue abaixo as especificações "desejadas":
 
+>
+- Criar uma **VPC** não default
+- Criar 3 **subnets**, uma em cada AZ dentro da nova VPC
+- Criar um **Internet Gateway**
+- Criar um **Security Group** com regras de acesso a porta 80 e 22
+- Criar um **EC2** com **nginx** ativo e acessivel pela porta 80
+- Criar um **bucket S3** sem acesso a internet para servir de repositório para o **terraform.state**
 
->> - Criar uma **VPC** não default
->>- Criar 3 **subnets**, uma em cada AZ dentro da nova VPC
->> - Criar um **Internet Gateway**
->>- Criar um **Security Group** com regras de acesso a porta 80 e 22
->>- Criar um **EC2** com **nginx** ativo e acessivel pela porta 80
->>- Criar um **bucket S3** sem acesso a internet para servir de repositório para o **terraform.state**
+
+
 
 ### Desenvolvedor
 
