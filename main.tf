@@ -103,6 +103,8 @@ terraform {
   }
 }
 
+
+
 output "aws_instance_e_ssh" {
   value = [
     aws_instance.ljc-ec2-az-a.public_ip,
