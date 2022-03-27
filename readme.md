@@ -1,5 +1,4 @@
 # Capacitação Terraform AWS (Parte 2)
-</h3>
 <p align="center">
  <a href="#objetivo">Objetivo</a> |
  <a href="#desafio">Desafio</a> |
