@@ -37,7 +37,7 @@
 
 - Criar 1 **Bucket S3** sem acesso a internet para servir de repositório para o **tfstate**.
 
-###Obrigatório!
+### Obrigatório!
 
 - As EC2 devem ser deployadas utilizando "count através do módulo criado no ultimo desafio;
 - As subnets devem ser criadas usando **"count"** ou **"for_each"**;
