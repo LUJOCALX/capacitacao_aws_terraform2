@@ -17,7 +17,7 @@
 
 ## Desafio
 
-- Disponibilizar a infraestrutura proposta a seguir na AWS utilizando o Terraform. Segue abaixo as especificações "desejadas":
+####Disponibilizar a infraestrutura proposta a seguir na AWS utilizando o Terraform. Segue abaixo as especificações "desejadas":
 ***
 
 - Criar uma **VPC** não default
