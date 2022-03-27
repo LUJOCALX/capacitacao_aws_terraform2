@@ -14,7 +14,7 @@
 ## Objetivo
 ***
 - Aplicar os conhecimentos adquiridos nos treinamentos sobre Terraform e AWS.
-
+***
 ## Desafio
 ***
 #### Disponibilizar a infraestrutura proposta a seguir na AWS utilizando o Terraform. Segue abaixo as especificações "desejadas":
@@ -57,9 +57,9 @@ Utilizar **dynamic block** para para o provisionamento de um item de sua escolha
 
 |[<img src="https://avatars.githubusercontent.com/u/67441115?v=4" width=115 > <br> <sub> Lucio José Cabianca </sub>](https://github.com/LUJOCALX)| 
 | -------- |
-
+***
 ## Tecnologias
-
+***
 Plataformas e Tecnologias que utilizamos para desenvolver este projeto:
 
 - [AWS](https://aws.amazon.com/)
@@ -70,9 +70,9 @@ Plataformas e Tecnologias que utilizamos para desenvolver este projeto:
 - [Terraform](https://www.terraform.io/)
 - [Apache](https://www.apache.org/)
 - [Nginx](https://www.nginx.com/)
-
+***
 ## Explicação
-
+***
 - A pasta **s3tfstate** possui o arquivo main.tf com o código necessário para efetuar a criação via terraform do **bucket S3 sem acesso via internet e com o versionamento ativado.** Este bucket foi criado para permitir o armazenamento e versionamento  remoto do **tfstate** do terraform conforme especificado. 
 **Obs:** *Somente após a criação deste bucket é que devem ser criados os demais recursos da infraestrutura. Temos esta dependência para que não haja erro na execução.*
 >
@@ -745,13 +745,13 @@ sudo chmod 644 /etc/nginx/sites-enabled/default
 sudo rm /home/ubuntu/default3200
 sudo systemctl restart nginx
 ```
-
+***
 ### Pré-requisitos
-
+***
 Possuir as ferramentas e tecnologias já citadas anteriormente, devidamente instaladas e configuradas para o seu sistema operacional e possuir uma conta na aws e no github.
-
+***
 ### Utilização:
-
+***
 **1.** Faça o clone do repositorio para sua maquina
 
 - Repositório **https://github.com/LUJOCALX/capacitacao_aws_terraform.git**
@@ -762,10 +762,11 @@ Possuir as ferramentas e tecnologias já citadas anteriormente, devidamente inst
 
 - Entrar no console da AWS e verificar a criação do Bucket S3 e o arquivo tfstate, da VPC, Subnets, Internet Gateway, Security Groups, Route table, associações, Key Pair, EC2, User Data estão ok. Após isto, efetuar o acesso as instâncias EC2 via ssh com os links disponibilizado nos outputs, e acessar via browse os nginx nas portas definidas.
 
-
+***
 ### Agradecimentos
 - A
 
 |h| 
 | -------- |
 
+***
