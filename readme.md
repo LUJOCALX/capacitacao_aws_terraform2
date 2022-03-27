@@ -33,11 +33,9 @@
 
 **Obs:** As 3 instâncias devem estar deployadas uma em cada subrede privada com acesso a internet somente para a instalação de pacotes. O apache não deve mostrar a sua versão aos clientes através do nmap ou inspect via browser. Desabilitar a versão 1.0 http e configurar no S.O. o tcp reuse e tcp port recycle (que serve para reutilizar as portas TCP do Kernel)
 
-1 - Instância com **nginx** em uma subrede publica que será utilizado como loadbalancer conforme abaixo:
+- Criar 1 instância com **nginx** em uma subrede publica que será utilizado como loadbalancer. Esta instância deverá ter acesso full a internet e acesso as portas de serviço das EC2 com apache via **Security Group**. Configurar o **loadbalancer** no modo random e acessível via porta 8080, durante a apresentação o acesso deve ser feito no IP publico desta EC2 para validar o funcionamento do balancer.
 
-Esta instância deverá ter acesso full a internet e acesso as portas de serviço das EC2 com apache via **Security Group**. Configurar o **loadbalancer** no modo randon e acessível via porta 8080, durante a apresentação o acesso deve ser feito no IP publico desta EC2 para validar o funcionamento do balancer.
-
-1 - **Bucket S3** sem acesso a internet para servir de repositório para o **tfstate**.
+- Criar 1 **Bucket S3** sem acesso a internet para servir de repositório para o **tfstate**.
 
 ###Obrigatório!
 
