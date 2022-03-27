@@ -37,7 +37,7 @@
 
 Esta instância deverá ter acesso full a internet e acesso as portas de serviço das EC2 com apache via **Security Group**. Configurar o **loadbalancer** no modo randon e acessível via porta 8080, durante a apresentação o acesso deve ser feito no IP publico desta EC2 para validar o funcionamento do balancer.
 
-1 **Bucket S3** sem acesso a internet para servir de repositório para o **tfstate**.
+1 - **Bucket S3** sem acesso a internet para servir de repositório para o **tfstate**.
 
 ###Obrigatório!
 
@@ -46,9 +46,9 @@ Esta instância deverá ter acesso full a internet e acesso as portas de serviç
 - Necessário ter **outputs** dos ips privados das 3 EC2 com apache e do ip publico do do EC2 com nginx;
 Utilizar **dynamic block** para para o provisionamento de um item de sua escolha da infraestrutura.
 
-Rodar tudo do seu computador pessoal, subir no seu **git** pessoal e montar uma apresentação final do seu código em funcionamento.
+- Rodar tudo do seu computador pessoal, subir no seu **git** pessoal e montar uma apresentação final do seu código em funcionamento.
 
-Mostrar o git, rodar o **terraform apply** e mostrar a infra sendo provisionada na AWS e acessar o ip do balancer demonstrando o funcionamento.
+- Mostrar o git, rodar o **terraform apply** e mostrar a infra sendo provisionada na AWS e acessar o ip do balancer demonstrando o funcionamento.
 
 
 ***
