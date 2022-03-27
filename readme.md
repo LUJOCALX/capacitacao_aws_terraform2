@@ -1,4 +1,5 @@
 # Capacitação Terraform AWS (Parte 2)
+</h3>
 <p align="center">
  <a href="#objetivo">Objetivo</a> |
  <a href="#desafio">Desafio</a> |
@@ -18,7 +19,6 @@
 ***
 #### Disponibilizar a infraestrutura proposta a seguir na AWS utilizando o Terraform. Segue abaixo as especificações "desejadas":
 ***
-
 - Criar uma **VPC** não default
 - Criar 3 **subnets publicas**, uma em cada AZ dentro da nova VPC
 - Criar 3 **subnets privadas**, uma em cada AZ dentro da nova VPC
@@ -49,11 +49,8 @@ Utilizar **dynamic block** para para o provisionamento de um item de sua escolha
 
 
 ***
-
-
-
 ### Desenvolvedor
-
+***
 |[<img src="https://avatars.githubusercontent.com/u/67441115?v=4" width=115 > <br> <sub> Lucio José Cabianca </sub>](https://github.com/LUJOCALX)| 
 | -------- |
 ***
