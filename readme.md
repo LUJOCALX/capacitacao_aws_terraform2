@@ -10,13 +10,13 @@
  <a href="#agradecimentos">Agradecimentos</a>
 </p>
 
-
+***
 ## Objetivo
-
+***
 - Aplicar os conhecimentos adquiridos nos treinamentos sobre Terraform e AWS.
 
 ## Desafio
-
+***
 #### Disponibilizar a infraestrutura proposta a seguir na AWS utilizando o Terraform. Segue abaixo as especificações "desejadas":
 ***
 
