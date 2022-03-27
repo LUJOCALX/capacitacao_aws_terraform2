@@ -23,15 +23,15 @@
 - Criar uma **VPC** não default
 - Criar 3 **subnets publicas**, uma em cada AZ dentro da nova VPC
 - Criar 3 **subnets privadas**, uma em cada AZ dentro da nova VPC
-- Criar um **Internet Gateway**
-- Criar um **Nat Gateway**
+- Criar 1 **Internet Gateway**
+- Criar 1 **Nat Gateway**
 - Criar 2 **Security Groups**
 - Criar 3 **Instâncias EC2** Utilizando a **AMI** da amazon **linux**, instalar o **apache** e liberar o acesso conforme abaixo:
 - Alterar o arquivo /var/www/html/index.htm adicionando o texto "Servidor Apache 1", e subir o serviço na porta 3001
-- Alterar o arquivo /var/www/html/index.htm adicionando o texto "Servidor Apache 1", e subir o serviço na porta 3002
-- Alterar o arquivo /var/www/html/index.htm adicionando o texto "Servidor Apache 1", e subir o serviço na porta 3003
+- Alterar o arquivo /var/www/html/index.htm adicionando o texto "Servidor Apache 2", e subir o serviço na porta 3002
+- Alterar o arquivo /var/www/html/index.htm adicionando o texto "Servidor Apache 3", e subir o serviço na porta 3003
 
-**Obs:** As 3 instâncias devem estar deployadas uma em cada subrede privada com acesso a internet somente para a instalação de pacotes. O apache não deve mostrar a sua versão aos clientes através do nmap ou inspect via browser. Desabilitar a versão 1.0 http e configurar no S.O. o tcp reuse e tcp port recycle (que serve para reutilizar as portas TCP do Kernel)
+**Obs:** ***As 3 instâncias devem estar deployadas uma em cada subrede privada com acesso a internet somente para a instalação de pacotes. O apache não deve mostrar a sua versão aos clientes através do nmap ou inspect via browser. Desabilitar a versão 1.0 http e configurar no S.O. o tcp reuse e tcp port recycle (que serve para reutilizar as portas TCP do Kernel)***
 
 - Criar 1 instância com **nginx** em uma subrede publica que será utilizado como loadbalancer. Esta instância deverá ter acesso full a internet e acesso as portas de serviço das EC2 com apache via **Security Group**. Configurar o **loadbalancer** no modo random e acessível via porta 8080, durante a apresentação o acesso deve ser feito no IP publico desta EC2 para validar o funcionamento do balancer.
 
