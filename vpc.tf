@@ -14,11 +14,11 @@ resource "aws_subnet" "subnet_publica" {
     "ljc_subnet_pub_c" : ["10.0.103.0/24", "${var.aws_region}c", "ljc_subnet_pub_c"]
   }
 
-  vpc_id            = aws_vpc.ljc_vpc_tf.id
-  cidr_block        = each.value[0]
-  availability_zone = each.value[1]
+  vpc_id                  = aws_vpc.ljc_vpc_tf.id
+  cidr_block              = each.value[0]
+  availability_zone       = each.value[1]
   map_public_ip_on_launch = true
-  tags              = merge(local.common_tags, { Name = each.value[2] })
+  tags                    = merge(local.common_tags, { Name = each.value[2] })
 }
 
 
@@ -47,9 +47,9 @@ resource "aws_internet_gateway" "igw" {
 
 # Criação do Nat Gateway
 resource "aws_nat_gateway" "ngw" {
-connectivity_type = "private"
-for_each = local.subnet_privada_ids
-subnet_id         = each.value
+  connectivity_type = "private"
+  for_each          = local.subnet_privada_ids
+  subnet_id         = each.value
   tags = {
     Name = "aws_nat_gateway_terraform"
   }
@@ -70,30 +70,30 @@ resource "aws_route_table" "rt_publica" {
 }
 
 
-# Criação route table acesso privado
-resource "aws_route_table" "rt_privada" {
-  vpc_id = aws_vpc.ljc_vpc_tf.id
+# # Criação route table acesso privado
+# resource "aws_route_table" "rt_privada" {
+#   vpc_id = aws_vpc.ljc_vpc_tf.id
 
-  route {
-    cidr_block = "0.0.0.0/0"
-#    gateway_id = aws_nat_gateway.ngw.id
-  }
+#   route {
+#     cidr_block = "0.0.0.0/0"
+# #    gateway_id = aws_nat_gateway.ngw.id
+#   }
 
-  tags = {
-    Name = "route_table_terraform privada"
-  }
-}
+#   tags = {
+#     Name = "route_table_terraform privada"
+#   }
+# }
 
 # Associação das Subnets na Route Table publica
 resource "aws_route_table_association" "rtassoc_subnet_publica" {
-  for_each = local.subnet_publica_ids
+  for_each       = local.subnet_publica_ids
   subnet_id      = each.value
   route_table_id = aws_route_table.rt_publica.id
 }
 
-# Associação das Subnets na Route Table privada
-resource "aws_route_table_association" "rtassoc_subnet_privada" {
-  for_each = local.subnet_privada_ids
-  subnet_id      = each.value
-  route_table_id = aws_route_table.rt_privada.id
-}
+# # Associação das Subnets na Route Table privada
+# resource "aws_route_table_association" "rtassoc_subnet_privada" {
+#   for_each = local.subnet_privada_ids
+#   subnet_id      = each.value
+#   route_table_id = aws_route_table.rt_privada.id
+# }

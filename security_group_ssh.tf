@@ -98,3 +98,98 @@ resource "aws_security_group" "allow_ssh" {
     Name = "allow_ssh"
   }
 }
+
+
+resource "aws_security_group" "portas_apache" {
+  name        = "sg_allow_acesso_apache_terraform"
+  description = "Acesso ao Apache criado pelo terraform VPC"
+  vpc_id      = aws_vpc.ljc_vpc_tf.id
+
+  ingress = [
+    {
+      description = "SSH from VPC"
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      cidr_blocks = ["${chomp(data.http.myip.body)}/32"] # pega meu IP dinamicamente
+      #cidr_blocks      = ["0.0.0.0/0"]
+      ipv6_cidr_blocks = ["::/0"]
+      prefix_list_ids  = null,
+      security_groups : null,
+      self : null
+    },
+    {
+      description      = "Acesso HTTPS"
+      from_port        = 443
+      to_port          = 443
+      protocol         = "tcp"
+      cidr_blocks      = ["0.0.0.0/0"]
+      ipv6_cidr_blocks = ["::/0"]
+      prefix_list_ids  = null,
+      security_groups : null,
+      self : null
+    },
+    {
+      description      = "Acesso HTTP"
+      from_port        = 80
+      to_port          = 80
+      protocol         = "tcp"
+      cidr_blocks      = ["0.0.0.0/0"]
+      ipv6_cidr_blocks = ["::/0"]
+      prefix_list_ids  = null,
+      security_groups : null,
+      self : null
+    },
+    {
+      description      = "Acesso apache aza"
+      from_port        = 3001
+      to_port          = 3001
+      protocol         = "tcp"
+      cidr_blocks      = ["0.0.0.0/0"]
+      ipv6_cidr_blocks = ["::/0"]
+      prefix_list_ids  = null,
+      security_groups : null,
+      self : null
+    },
+    {
+      description      = "Acesso apache azb"
+      from_port        = 3002
+      to_port          = 3002
+      protocol         = "tcp"
+      cidr_blocks      = ["0.0.0.0/0"]
+      ipv6_cidr_blocks = ["::/0"]
+      prefix_list_ids  = null,
+      security_groups : null,
+      self : null
+    },
+    {
+      description      = "Acesso apache azc"
+      from_port        = 3003
+      to_port          = 3003
+      protocol         = "tcp"
+      cidr_blocks      = ["0.0.0.0/0"]
+      ipv6_cidr_blocks = ["::/0"]
+      prefix_list_ids  = null,
+      security_groups : null,
+      self : null
+    }
+  ]
+
+  egress = [
+    {
+      description : "Libera dados da rede interna"
+      from_port        = 0
+      to_port          = 0
+      protocol         = "-1"
+      cidr_blocks      = ["0.0.0.0/0"]
+      ipv6_cidr_blocks = ["::/0"]
+      prefix_list_ids  = null,
+      security_groups : null,
+      self : null,
+    }
+  ]
+
+  tags = {
+    Name = "sg-libera-portas-apache"
+  }
+}
