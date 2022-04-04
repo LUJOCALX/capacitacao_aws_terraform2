@@ -2,6 +2,12 @@
 output "vpc" {
   value = "${module.network.vpc}"
 }
+# output "sn_publicas" {
+#   value = "${module.network.sn_publicas}"
+# }
+# output "sn_privadas" {
+#   value = "${module.network.sn_privadas}"
+# }
 output "sn_pub_a" {
   value = "${module.network.sn_pub_a}"
 }
@@ -27,4 +33,14 @@ output "sg_nginx" {
 }
 output "sg_apache" {
   value = "${module.security.sg_apache}"
+}
+
+
+# Saida modulo cpt
+output "links_ec2_NGINX" {
+  value = "${module.compute.links_ec2_NGINX}"
+}
+
+output "links_ec2_APACHE" {
+  value = "${module.compute.links_ec2_APACHE}"
 }

@@ -1,9 +1,9 @@
 locals {
   # Variável para criação da associação das subnets publicas
-  subnet_publica_ids = { for k, v in aws_subnet.subnet_publica : v.tags.Name => v.id }
+  subnet_publica_ids = { for k, v in "${var.sn_publicas}" : v.tags.Name => v.id }
 
   # Variável para criação da associação das subnets privadas
-  subnet_privada_ids = { for k, v in aws_subnet.subnet_privada : v.tags.Name => v.id }
+  subnet_privada_ids = { for k, v in "${var.sn_privadas}" : v.tags.Name => v.id }
 
   # Tags comuns dos serviços
   common_tags = {

@@ -3,6 +3,12 @@
 output "vpc" {
   value = "${aws_vpc.ljc_vpc_tf.id}"
 }
+output "sn_publicas" {
+  value = "${aws_subnet.subnet_publica}"
+}
+output "sn_privadas" {
+  value = "${aws_subnet.subnet_privada}"
+}
 output "sn_pub_a" {
   value = "${aws_subnet.subnet_publica["ljc_subnet_pub_a"].id}"
 }
