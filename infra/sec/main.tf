@@ -5,10 +5,10 @@
 # egress = [ # outbound - de dentro nda maquina, para fora (internet)
 
 
-resource "aws_security_group" "allow_ssh" {
-  name        = "allow_ssh_vpc_terraform"
-  description = "sg_allow_acesso_nginx_terraform"
-  vpc_id      = aws_vpc.ljc_vpc_tf.id
+resource "aws_security_group" "portas_nginx" {
+  name        = "allow_access_nginx_terraform"
+  description = "Acesso ao Nginx criado pelo terraform VPC"
+  vpc_id      = "${var.vpc_id}"
 
   ingress = [
     {
@@ -95,15 +95,15 @@ resource "aws_security_group" "allow_ssh" {
   ]
 
   tags = {
-    Name = "allow_ssh"
+    Name = "sg-libera-portas-nginx"
   }
 }
 
 
 resource "aws_security_group" "portas_apache" {
-  name        = "sg_allow_acesso_apache_terraform"
+  name        = "allow_access_apache_terraform"
   description = "Acesso ao Apache criado pelo terraform VPC"
-  vpc_id      = aws_vpc.ljc_vpc_tf.id
+  vpc_id      = "${var.vpc_id}"
 
   ingress = [
     {

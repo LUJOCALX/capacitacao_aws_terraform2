@@ -1,0 +1,61 @@
+# variable "nome" {
+#   type        = string
+#   description = "Nome da instancia"
+# }
+
+variable "aws_region" {
+  type        = string
+  description = ""
+  default     = "us-east-1" #Região Norte da Virgínia
+}
+
+variable "count_id" {
+  type = string
+  description = "Numero de instancias"
+  
+}
+# variable "image_id" {
+#   type        = string
+#   description = "Id da AMI"
+
+# }
+variable "subnet_id" {
+  type        = string
+  description = "Id da subnet"
+}
+variable "instance_type" {
+  type        = string
+  description = "O tipo de instancia"
+  default = "t3.micro"
+}
+variable "vpc_security_group_id" {
+  type        = string
+  description = "O security group"
+}
+variable "key_name" {
+  type        = string
+  description = "key chave publica cadastrada na AWS "
+  default = "curso_criacao_ambiente_terraform" 
+}
+
+# variable "volume_size_id" {
+#   type        = string
+#   description = "O Tamanho do disco, minimo 8Gb."
+#   default = "8Gb"
+# }
+
+# variable "ip_public_id" {
+#   type        = string
+#   description = "indicar com true or false para criar a EC2 com ou sem ip publico associado."
+# }
+
+variable "tag_name" {
+type        = string
+description = "Tag"
+default = "teste"
+}
+
+variable "user_data" {
+  type        = string
+  description = "Arquivo de metadados da instancia"
+}

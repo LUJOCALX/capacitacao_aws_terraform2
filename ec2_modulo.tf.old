@@ -1,0 +1,7 @@
+module "instancia" {
+  count_id = 1
+  source    = "./instancia"
+  user_data = file("./userdata/nginx_a_3200.sh")
+  vpc_security_group_id = aws_security_group.allow_ssh.id
+  subnet_id = subnet_publica_ids
+}

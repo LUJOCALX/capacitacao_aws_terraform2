@@ -1,10 +1,15 @@
 resource "aws_vpc" "ljc_vpc_tf" {
   cidr_block           = "10.0.0.0/16"
   enable_dns_hostnames = true
+  enable_dns_support   = true
+  instance_tenancy     = "default"
   tags = {
     Name = "ljc-vpc-tf"
   }
 }
+
+data "aws_availability_zones" "available" {}
+
 
 # Criação das Subnets publicas nas zonas a, b e c
 resource "aws_subnet" "subnet_publica" {
@@ -45,15 +50,6 @@ resource "aws_internet_gateway" "igw" {
   }
 }
 
-# # Criação do Nat Gateway
-# resource "aws_nat_gateway" "ngw" {
-#   connectivity_type = "private"
-#   for_each          = local.subnet_privada_ids
-#   subnet_id         = each.value
-#   tags = {
-#     Name = "aws_nat_gateway_terraform"
-#   }
-# }
 
 # Criação route table acesso publico
 resource "aws_route_table" "rt_publica" {
@@ -89,6 +85,7 @@ resource "aws_route_table_association" "rtassoc_subnet_publica" {
   for_each       = local.subnet_publica_ids
   subnet_id      = each.value
   route_table_id = aws_route_table.rt_publica.id
+  
 }
 
 # # Associação das Subnets na Route Table privada
