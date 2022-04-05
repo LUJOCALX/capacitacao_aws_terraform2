@@ -9,11 +9,11 @@ output "links_ec2_NGINX" {
     "IP Publico: ${aws_instance.ljc-ec2-nginx["ljc_subnet_pub_b"].public_ip}",
     "IP Privado: ${aws_instance.ljc-ec2-nginx["ljc_subnet_pub_b"].private_ip}",
     "ssh ubuntu@${aws_instance.ljc-ec2-nginx["ljc_subnet_pub_b"].public_dns}",
-    "NGINX_AZA_3200 http://${aws_instance.ljc-ec2-nginx["ljc_subnet_pub_b"].public_dns}:3200",
+    "NGINX_AZB_3300 http://${aws_instance.ljc-ec2-nginx["ljc_subnet_pub_b"].public_dns}:3300",
     "IP Publico: ${aws_instance.ljc-ec2-nginx["ljc_subnet_pub_c"].public_ip}",
     "IP Privado: ${aws_instance.ljc-ec2-nginx["ljc_subnet_pub_c"].private_ip}",
     "ssh ubuntu@${aws_instance.ljc-ec2-nginx["ljc_subnet_pub_c"].public_dns}",
-    "NGINX_AZA_3200 http://${aws_instance.ljc-ec2-nginx["ljc_subnet_pub_c"].public_dns}:3200"
+    "NGINX_AZC_3400 http://${aws_instance.ljc-ec2-nginx["ljc_subnet_pub_c"].public_dns}:3400"
   ]
 
 }

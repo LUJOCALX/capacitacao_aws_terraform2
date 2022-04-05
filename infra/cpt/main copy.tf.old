@@ -5,7 +5,7 @@ resource "aws_instance" "ljc-ec2-nginx" {
   for_each      = local.subnet_publica_ids
   subnet_id     = each.value # vincula a subnet direto e gera o IP automático
   vpc_security_group_ids = ["${var.sg_nginx}"]
-  user_data              = file("./cpt/userdata/${var.arquivos_nginx[each.key]}")
+  user_data              = file("./cpt/userdata/nginx_a_3200.sh")
   tags                   = merge(local.common_tags, { Name = "ec2-nginx-${each.key}" })
 }
 
@@ -16,6 +16,6 @@ resource "aws_instance" "ljc-ec2-apache" {
   for_each      = local.subnet_publica_ids
   subnet_id     = each.value # vincula a subnet direto e gera o IP automático
   vpc_security_group_ids = ["${var.sg_apache}"]
-  user_data              = file("./cpt/userdata/${var.arquivos_apache[each.key]}")
+  user_data              = file("./cpt/userdata/apache_3001.sh")
   tags                   = merge(local.common_tags, { Name = "ec2-apache-${each.key}" })
 }
