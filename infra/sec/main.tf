@@ -1,15 +1,8 @@
-# https://registry.terraform.io/modules/terraform-aws-modules/security-group/aws/latest/submodules/ssh#input_auto_computed_egress_rules
-# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
-
-# ingress = [  # inbound - de fora (internet) para dentro da da maquina
-# egress = [ # outbound - de dentro nda maquina, para fora (internet)
-
-
 resource "aws_security_group" "portas_nginx" {
   name        = "allow_access_nginx_terraform"
   description = "Acesso ao Nginx criado pelo terraform VPC"
-  vpc_id      = "${var.vpc_id}"
-
+  vpc_id      = var.vpc_id
+# ingress = [  # inbound - de fora (internet) para dentro da da maquina
   ingress = [
     {
       description = "SSH from VPC"
@@ -79,7 +72,7 @@ resource "aws_security_group" "portas_nginx" {
       self : null
     }
   ]
-
+# egress = [ # outbound - de dentro nda maquina, para fora (internet)
   egress = [
     {
       from_port        = 0
@@ -103,7 +96,7 @@ resource "aws_security_group" "portas_nginx" {
 resource "aws_security_group" "portas_apache" {
   name        = "allow_access_apache_terraform"
   description = "Acesso ao Apache criado pelo terraform VPC"
-  vpc_id      = "${var.vpc_id}"
+  vpc_id      = var.vpc_id
 
   ingress = [
     {
@@ -111,30 +104,8 @@ resource "aws_security_group" "portas_apache" {
       from_port   = 22
       to_port     = 22
       protocol    = "tcp"
-      cidr_blocks = ["${chomp(data.http.myip.body)}/32"] # pega meu IP dinamicamente
+      cidr_blocks = ["10.0.104.10/32"] # IP Bastion host
       #cidr_blocks      = ["0.0.0.0/0"]
-      ipv6_cidr_blocks = ["::/0"]
-      prefix_list_ids  = null,
-      security_groups : null,
-      self : null
-    },
-    {
-      description      = "Acesso HTTPS"
-      from_port        = 443
-      to_port          = 443
-      protocol         = "tcp"
-      cidr_blocks      = ["0.0.0.0/0"]
-      ipv6_cidr_blocks = ["::/0"]
-      prefix_list_ids  = null,
-      security_groups : null,
-      self : null
-    },
-    {
-      description      = "Acesso HTTP"
-      from_port        = 80
-      to_port          = 80
-      protocol         = "tcp"
-      cidr_blocks      = ["0.0.0.0/0"]
       ipv6_cidr_blocks = ["::/0"]
       prefix_list_ids  = null,
       security_groups : null,
@@ -143,38 +114,15 @@ resource "aws_security_group" "portas_apache" {
     {
       description      = "Acesso apache aza"
       from_port        = 3001
-      to_port          = 3001
-      protocol         = "tcp"
-      cidr_blocks      = ["0.0.0.0/0"]
-      ipv6_cidr_blocks = ["::/0"]
-      prefix_list_ids  = null,
-      security_groups : null,
-      self : null
-    },
-    {
-      description      = "Acesso apache azb"
-      from_port        = 3002
-      to_port          = 3002
-      protocol         = "tcp"
-      cidr_blocks      = ["0.0.0.0/0"]
-      ipv6_cidr_blocks = ["::/0"]
-      prefix_list_ids  = null,
-      security_groups : null,
-      self : null
-    },
-    {
-      description      = "Acesso apache azc"
-      from_port        = 3003
       to_port          = 3003
       protocol         = "tcp"
-      cidr_blocks      = ["0.0.0.0/0"]
-      ipv6_cidr_blocks = ["::/0"]
+      cidr_blocks      = []
+      ipv6_cidr_blocks = []
+      security_groups = [aws_security_group.portas_nginx.id] #Libera as instancias nginx a acessar o apache nas portas 3001 a 3003
       prefix_list_ids  = null,
-      security_groups : null,
       self : null
     }
   ]
-
   egress = [
     {
       description : "Libera dados da rede interna"
@@ -191,5 +139,33 @@ resource "aws_security_group" "portas_apache" {
 
   tags = {
     Name = "sg-libera-portas-apache"
+  }
+}
+
+
+
+
+resource "aws_security_group" "portas_bastion" {
+  name        = "allow_access_bastion_terraform"
+  description = "Acesso ao bastion criado pelo terraform VPC"
+  vpc_id      = var.vpc_id
+
+  ingress = [
+    {
+      description = "SSH from VPC"
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      cidr_blocks = ["${chomp(data.http.myip.body)}/32"] # pega meu IP dinamicamente
+      #cidr_blocks      = ["0.0.0.0/0"]
+      ipv6_cidr_blocks = ["::/0"]
+      prefix_list_ids  = null,
+      security_groups : null,
+      self : null
+    }
+  ]
+
+  tags = {
+    Name = "sg-libera-ssh-bastion-meu-ip"
   }
 }
