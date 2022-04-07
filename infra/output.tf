@@ -50,3 +50,7 @@ output "links_ec2_NGINX" {
 output "links_ec2_APACHE" {
   value = module.compute.links_ec2_APACHE
 }
+
+output "links_ec2_BASTION" {
+  value = module.compute.links_ec2_BASTION
+}

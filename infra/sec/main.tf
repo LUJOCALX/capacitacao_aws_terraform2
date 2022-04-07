@@ -1,8 +1,8 @@
 resource "aws_security_group" "portas_nginx" {
-  name        = "allow_access_nginx_terraform"
+  name        = "allow_accesso_nginx_terraform"
   description = "Acesso ao Nginx criado pelo terraform VPC"
   vpc_id      = var.vpc_id
-# ingress = [  # inbound - de fora (internet) para dentro da da maquina
+  # ingress = [  # inbound - de fora (internet) para dentro da maquina
   ingress = [
     {
       description = "SSH from VPC"
@@ -13,7 +13,7 @@ resource "aws_security_group" "portas_nginx" {
       #cidr_blocks      = ["0.0.0.0/0"]
       ipv6_cidr_blocks = ["::/0"]
       prefix_list_ids  = null,
-      security_groups : null,
+      security_groups : [aws_security_group.portas_bastion.id]
       self : null
     },
     {
@@ -72,7 +72,7 @@ resource "aws_security_group" "portas_nginx" {
       self : null
     }
   ]
-# egress = [ # outbound - de dentro nda maquina, para fora (internet)
+  # egress = [ # outbound - de dentro nda maquina, para fora (internet)
   egress = [
     {
       from_port        = 0
@@ -88,7 +88,7 @@ resource "aws_security_group" "portas_nginx" {
   ]
 
   tags = {
-    Name = "sg-libera-portas-nginx"
+    Name = "sg-libera-acessos-nginx"
   }
 }
 
@@ -100,25 +100,26 @@ resource "aws_security_group" "portas_apache" {
 
   ingress = [
     {
-      description = "SSH from VPC"
+      description = "libera ssh do bastion e nginx para o apache"
       from_port   = 22
       to_port     = 22
       protocol    = "tcp"
-      cidr_blocks = ["10.0.104.10/32"] # IP Bastion host
+      cidr_blocks = ["${chomp(data.http.myip.body)}/32"] # pega meu IP dinamicamente
       #cidr_blocks      = ["0.0.0.0/0"]
-      ipv6_cidr_blocks = ["::/0"]
+      #cidr_blocks      = []
+      ipv6_cidr_blocks = []
       prefix_list_ids  = null,
-      security_groups : null,
+      security_groups : [aws_security_group.portas_nginx.id, aws_security_group.portas_bastion.id]
       self : null
     },
     {
-      description      = "Acesso apache aza"
+      description      = "libera nginx acessar portas 3001,3002,3003 apache"
       from_port        = 3001
       to_port          = 3003
       protocol         = "tcp"
       cidr_blocks      = []
       ipv6_cidr_blocks = []
-      security_groups = [aws_security_group.portas_nginx.id] #Libera as instancias nginx a acessar o apache nas portas 3001 a 3003
+      security_groups  = [aws_security_group.portas_nginx.id, aws_security_group.portas_bastion.id] #Libera as instancias nginx a acessar o apache nas portas 3001 a 3003
       prefix_list_ids  = null,
       self : null
     }
@@ -138,7 +139,7 @@ resource "aws_security_group" "portas_apache" {
   ]
 
   tags = {
-    Name = "sg-libera-portas-apache"
+    Name = "sg-libera-acessos-apache"
   }
 }
 
@@ -164,8 +165,21 @@ resource "aws_security_group" "portas_bastion" {
       self : null
     }
   ]
+  egress = [
+    {
+      description : "Libera dados da rede interna"
+      from_port        = 0
+      to_port          = 0
+      protocol         = "-1"
+      cidr_blocks      = ["0.0.0.0/0"]
+      ipv6_cidr_blocks = ["::/0"]
+      prefix_list_ids  = null,
+      security_groups : null,
+      self : null,
+    }
+  ]
 
   tags = {
-    Name = "sg-libera-ssh-bastion-meu-ip"
+    Name = "sg-libera-acessos-bastion-meu-ip"
   }
 }

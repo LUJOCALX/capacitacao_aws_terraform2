@@ -20,17 +20,24 @@ resource "aws_instance" "ljc-ec2-apache" {
   tags                   = merge(local.common_tags, { Name = "ec2-apache-${each.key}" })
 }
 
-resource "aws_instance" "ljc_subnet_bastion_a_2" {
+resource "aws_instance" "ljc_subnet_bastion_a" {
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = "t3.micro"
   key_name               = "curso_criacao_ambiente_terraform" # key chave publica cadastrada na AWS 
   subnet_id              = var.sn_pub_bastion_a
   private_ip             = "10.0.104.10"
   vpc_security_group_ids = ["${var.sg_bastion}"]
+  user_data              = file("./cpt/userdata/bastion_a.sh")
+  
+  
+  # # Copies the myapp.conf file to /etc/myapp.conf
+  # provisioner "file" {
+  #   source      = "~/.ssh/id_rsa"
+  #   destination = "~/.ssh"
+  # }
 
-
-  tags = {
-    Name         = "Instancia Bastion Host"
+  tags = merge(local.common_tags, {
+    Name         = "Instancia Bastion Host",
     "Criado por" = "Terraform"
-  }
+  })
 }

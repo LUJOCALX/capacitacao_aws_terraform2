@@ -1,4 +1,13 @@
 
+output "links_ec2_BASTION" {
+  value = [
+    "IP Publico: ${aws_instance.ljc_subnet_bastion_a.public_ip}",
+    "IP Privado: ${aws_instance.ljc_subnet_bastion_a.private_ip}",
+    "ssh ubuntu@${aws_instance.ljc_subnet_bastion_a.public_dns}"
+  ]
+
+}
+
 output "links_ec2_NGINX" {
 
   value = [

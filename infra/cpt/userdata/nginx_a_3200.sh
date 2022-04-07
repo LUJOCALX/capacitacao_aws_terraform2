@@ -96,8 +96,40 @@ server {
 #}
 " > /home/ubuntu/default3200
 
-sudo cp /etc/nginx/sites-enabled/default /home/ubuntu/default.original
-sudo cp /home/ubuntu/default3200 /etc/nginx/sites-enabled/default
-sudo chmod 644 /etc/nginx/sites-enabled/default
-sudo rm /home/ubuntu/default3200
+sudo echo "
+# Define which servers to include in the load balancing scheme. 
+# It's best to use the servers' private IPs for better performance and security.
+# You can find the private IPs at your UpCloud control panel Network section.
+http {
+  upstream ec2_apache {
+    apache 127.0.0.1:3001;
+    apache 127.0.0.1:3002;
+    apache 127.0.0.1:3003;
+  }
+
+   # This server accepts all traffic to port 80 and passes it to the upstream. 
+   # Notice that the upstream name and the proxy_pass need to match.
+
+   server {
+      listen 3200; 
+
+      location / {
+          proxy_pass http://ec2_apache;
+      }
+   }
+}
+" > /home/ubuntu/nginx_loadbalancer.conf
+
+/etc/nginx/nginx_loadbalancer.conf
+
+sudo cp /etc/nginx/nginx.conf /home/ubuntu/nginx_loadbalancer.conf
+sudo cp /home/ubuntu/nginx_loadbalancer.conf /etc/nginx/nginx.conf
+sudo chmod 644 /etc/nginx/nginx.conf
+#sudo rm /home/ubuntu/nginx_loadbalancer.conf
+sudo rm /etc/nginx/sites-enabled/default
+
+# sudo cp /etc/nginx/sites-enabled/default /home/ubuntu/default.original
+# sudo cp /home/ubuntu/default3200 /etc/nginx/sites-enabled/default
+# sudo chmod 644 /etc/nginx/sites-enabled/default
+# sudo rm /home/ubuntu/default3200
 sudo systemctl restart nginx

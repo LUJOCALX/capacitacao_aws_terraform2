@@ -110,3 +110,5 @@ override.tf.json
 terraform.rc
 
 # End of https://www.toptal.com/developers/gitignore/api/terraform,ansible,java,linux,macos
+
+*bastion_a.sh

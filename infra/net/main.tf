@@ -120,3 +120,10 @@ resource "aws_route_table_association" "rtassoc_subnet_privada" {
   subnet_id      = each.value
   route_table_id = aws_route_table.rt_privada.id
 }
+
+
+# Associação das Subnet do bastion na Route Table publica
+resource "aws_route_table_association" "rtassoc_subnet_bastion_publica" {
+  subnet_id      = aws_subnet.ljc_subnet_bastion_a.id
+  route_table_id = aws_route_table.rt_publica.id
+}
