@@ -109,16 +109,16 @@ events {
 
 http {
   upstream ec2_apache {
-    server 10.0.1.10:80;
-    server 10.0.2.10:80;
-    server 10.0.3.10:80;
+    server 10.0.1.10:3001;
+    server 10.0.2.10:3002;
+    server 10.0.3.10:3003;
   }
 
    # This server accepts all traffic to port 80 and passes it to the upstream. 
    # Notice that the upstream name and the proxy_pass need to match.
 
    server {
-      listen 80; 
+      listen 3200; 
 
       location / {
           proxy_pass http://ec2_apache;
@@ -155,8 +155,8 @@ sudo cp /etc/nginx/nginx.conf /home/ubuntu/nginx.conf.original
 sudo cp /home/ubuntu/nginx_loadbalancer.conf /etc/nginx/nginx.conf
 sudo chmod 644 /etc/nginx/nginx.conf
 
-# sudo cp /etc/nginx/sites-enabled/default /home/ubuntu/default.original
-# sudo cp /home/ubuntu/default3200 /etc/nginx/sites-enabled/default
-# sudo chmod 644 /etc/nginx/sites-enabled/default
-# sudo rm /home/ubuntu/default3200
+sudo cp /etc/nginx/sites-enabled/default /home/ubuntu/default.original
+sudo cp /home/ubuntu/default3200 /etc/nginx/sites-enabled/default
+sudo chmod 644 /etc/nginx/sites-enabled/default
+sudo rm /home/ubuntu/default3200
 sudo systemctl restart nginx
