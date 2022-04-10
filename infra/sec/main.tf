@@ -122,18 +122,18 @@ resource "aws_security_group" "portas_apache" {
       security_groups  = [aws_security_group.portas_nginx.id, aws_security_group.portas_bastion.id] #Libera as instancias nginx a acessar o apache nas portas 3001 a 3003
       prefix_list_ids  = null,
       self : null
-    },
-    {
-      description      = "libera nginx acessar portas 80 apache"
-      from_port        = 80
-      to_port          = 80
-      protocol         = "tcp"
-      cidr_blocks      = []
-      ipv6_cidr_blocks = []
-      security_groups  = [aws_security_group.portas_nginx.id, aws_security_group.portas_bastion.id] #Libera as instancias nginx a acessar o apache nas portas 3001 a 3003
-      prefix_list_ids  = null,
-      self : null
     }
+    #{
+    #   description      = "libera nginx acessar portas 80 apache"
+    #   from_port        = 80
+    #   to_port          = 80
+    #   protocol         = "tcp"
+    #   cidr_blocks      = []
+    #   ipv6_cidr_blocks = []
+    #   security_groups  = [aws_security_group.portas_nginx.id, aws_security_group.portas_bastion.id] #Libera as instancias nginx a acessar o apache nas portas 3001 a 3003
+    #   prefix_list_ids  = null,
+    #   self : null
+    # }
   ]
   egress = [
     {
@@ -164,7 +164,7 @@ resource "aws_security_group" "portas_bastion" {
 
   ingress = [
     {
-      description = "SSH from VPC"
+      description = "SSH servidor Bastion"
       from_port   = 22
       to_port     = 22
       protocol    = "tcp"
@@ -173,6 +173,17 @@ resource "aws_security_group" "portas_bastion" {
       ipv6_cidr_blocks = ["::/0"]
       prefix_list_ids  = null,
       security_groups : null,
+      self : null
+    },
+    {
+      description      = "libera nginx acessar portas 3004 apache bastion"
+      from_port        = 3004
+      to_port          = 3004
+      protocol         = "tcp"
+      cidr_blocks      = ["${chomp(data.http.myip.body)}/32"] # pega meu IP dinamicamente
+      ipv6_cidr_blocks = ["::/0"]
+      security_groups  = null,
+      prefix_list_ids  = null,
       self : null
     }
   ]

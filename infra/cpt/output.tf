@@ -3,7 +3,8 @@ output "links_ec2_BASTION" {
   value = [
     "IP Publico: ${aws_instance.ljc_subnet_bastion_a.public_ip}",
     "IP Privado: ${aws_instance.ljc_subnet_bastion_a.private_ip}",
-    "ssh ubuntu@${aws_instance.ljc_subnet_bastion_a.public_dns}"
+    "ssh ubuntu@${aws_instance.ljc_subnet_bastion_a.public_dns}",
+    "APACHE_AZA_3004 http://${aws_instance.ljc_subnet_bastion_a.public_dns}:3004"
   ]
 
 }

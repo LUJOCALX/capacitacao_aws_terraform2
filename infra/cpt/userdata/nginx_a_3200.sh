@@ -114,8 +114,7 @@ http {
     server 10.0.1.10:3001;
     server 10.0.2.10:3002;
     server 10.0.3.10:3003;
-
-    
+   
   }
 
    # This server accepts all traffic to port 80 and passes it to the upstream. 
