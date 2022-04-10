@@ -122,6 +122,17 @@ resource "aws_security_group" "portas_apache" {
       security_groups  = [aws_security_group.portas_nginx.id, aws_security_group.portas_bastion.id] #Libera as instancias nginx a acessar o apache nas portas 3001 a 3003
       prefix_list_ids  = null,
       self : null
+    },
+    {
+      description      = "libera nginx acessar portas 80 apache"
+      from_port        = 80
+      to_port          = 80
+      protocol         = "tcp"
+      cidr_blocks      = []
+      ipv6_cidr_blocks = []
+      security_groups  = [aws_security_group.portas_nginx.id, aws_security_group.portas_bastion.id] #Libera as instancias nginx a acessar o apache nas portas 3001 a 3003
+      prefix_list_ids  = null,
+      self : null
     }
   ]
   egress = [
