@@ -28,7 +28,7 @@ variable "ips_nginx" {
     ljc_subnet_pub_a = "10.0.101.10",
     ljc_subnet_pub_b = "10.0.102.10",
     ljc_subnet_pub_c = "10.0.103.10"
- }
+  }
 }
 
 variable "ips_apache" {
@@ -36,6 +36,6 @@ variable "ips_apache" {
     ljc_subnet_prv_a = "10.0.1.10",
     ljc_subnet_prv_b = "10.0.2.10",
     ljc_subnet_prv_c = "10.0.3.10"
- }
+  }
 }
 

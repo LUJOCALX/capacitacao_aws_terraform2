@@ -2,7 +2,27 @@
 sudo apt update
 sudo apt install net-tools
 sudo apt install apache2 -y
+sudo a2enmod rewrite
 sudo systemctl start apache2
+
+
+sudo echo "
+ServerTokens Prod
+ServerSignature Off
+#Rewrite condition to allow only HTTP 1.1
+RewriteEngine On
+RewriteCond %{THE_REQUEST} !HTTP/1.1$
+RewriteRule .* - [F]
+#As you could see, it displays a forbidden error instead of showing test folder listing.
+<Directory /opt/apache/htdocs>
+Options None
+</Directory>
+#To prevent this vulnerability, lets implement it as below. This is required to fix for PCI compliance.
+FileETag None
+#As you could see in above TRACE request, it has responded my query. Lets disable it and test it
+TraceEnable off
+" > /etc/apache2/httpd.conf
+
 
 sudo echo "# If you just change the port or add more ports here, you will likely also
 # have to change the VirtualHost statement in
@@ -19,6 +39,11 @@ Listen 3001
 
 
 sudo echo "<VirtualHost *:3001>
+        <Directory /var/www/html>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Require all granted
+        </Directory>
         # The ServerName directive sets the request scheme, hostname and port that
         # the server uses to identify itself. This is used when creating
         # redirection URLs. In the context of virtual hosts, the ServerName
@@ -72,11 +97,12 @@ sudo echo "
 #  Enabling this option disables Stateless Address Autoconfiguration
 #  based on Router Advertisements for this host
 #net.ipv6.conf.all.forwarding=1
-# Allow reuse of sockets in TIME_WAIT state for new connections
-# (While this may increase performance, use with caution according
-# to the kernel documentation.  This setting should only be enabled
-# after the system administrator reviews security considerations.)
-net.ipv4.tcp_tw_reuse=1
+
+# Increase the tcp-time-wait buckets pool size to prevent simple DOS attacks
+net.ipv4.tcp_max_tw_buckets = 1440000
+net.ipv4.tcp_tw_recycle = 1
+net.ipv4.tcp_tw_reuse = 1
+
 # Lastly apply changes
 # sudo /sbin/sysctl -p
 " > /home/ubuntu/sysctl_apache.conf
@@ -109,6 +135,6 @@ sudo chmod 644 /etc/apache2/sites-enabled/000-default.conf
 sudo cp /etc/apache2/ports.conf /home/ubuntu/ports.conf.original
 sudo cp /home/ubuntu/ports3001.conf /etc/apache2/ports.conf
 sudo chmod 644 /etc/apache2/ports.conf
-
+sudo chmod 644 /etc/apache2/httpd.conf
 sudo systemctl restart apache2 #SystemD
 sudo service apache2 restart #SysVInit

@@ -72,11 +72,12 @@ sudo echo "
 #  Enabling this option disables Stateless Address Autoconfiguration
 #  based on Router Advertisements for this host
 #net.ipv6.conf.all.forwarding=1
-# Allow reuse of sockets in TIME_WAIT state for new connections
-# (While this may increase performance, use with caution according
-# to the kernel documentation.  This setting should only be enabled
-# after the system administrator reviews security considerations.)
-net.ipv4.tcp_tw_reuse=1
+
+# Increase the tcp-time-wait buckets pool size to prevent simple DOS attacks
+net.ipv4.tcp_max_tw_buckets = 1440000
+net.ipv4.tcp_tw_recycle = 1
+net.ipv4.tcp_tw_reuse = 1
+
 # Lastly apply changes
 # sudo /sbin/sysctl -p
 " > /home/ubuntu/sysctl_apache.conf

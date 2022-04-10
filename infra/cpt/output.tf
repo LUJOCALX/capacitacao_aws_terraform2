@@ -9,7 +9,6 @@ output "links_ec2_BASTION" {
 }
 
 output "links_ec2_NGINX" {
-
   value = [
     "IP Publico: ${aws_instance.ljc-ec2-nginx["ljc_subnet_pub_a"].public_ip}",
     "IP Privado: ${aws_instance.ljc-ec2-nginx["ljc_subnet_pub_a"].private_ip}",
