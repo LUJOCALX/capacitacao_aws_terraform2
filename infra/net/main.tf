@@ -71,9 +71,6 @@ resource "aws_nat_gateway" "ngw" {
   tags = {
     Name = "aws_nat_gateway_terraform"
   }
-
-  # To ensure proper ordering, it is recommended to add an explicit dependency
-  # on the Internet Gateway for the VPC.
   depends_on = [aws_internet_gateway.igw]
 }
 
@@ -111,7 +108,6 @@ resource "aws_route_table_association" "rtassoc_subnet_publica" {
   for_each       = local.subnet_publica_ids
   subnet_id      = each.value
   route_table_id = aws_route_table.rt_publica.id
-
 }
 
 # Associação das Subnets na Route Table privada

@@ -8,7 +8,7 @@ locals {
   # Tags comuns dos serviços
   common_tags = {
     Project   = "Capacitação AWS com Terraform"
-    CreatedAt = "2022-04-04"
+    CreatedAt = "2022-04-12"
     ManagedBy = "Terraform"
     Owner     = "Lucio José Cabianca"
   }
