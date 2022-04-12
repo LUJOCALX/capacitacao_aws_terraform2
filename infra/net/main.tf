@@ -1,3 +1,4 @@
+# Criação da VPC do projeto
 resource "aws_vpc" "ljc_vpc_tf" {
   cidr_block           = "10.0.0.0/16"
   enable_dns_hostnames = true
@@ -7,8 +8,6 @@ resource "aws_vpc" "ljc_vpc_tf" {
     Name = "ljc-vpc-tf"
   }
 }
-
-data "aws_availability_zones" "available" {}
 
 
 # Criação das Subnets publicas nas zonas a, b e c
@@ -123,3 +122,8 @@ resource "aws_route_table_association" "rtassoc_subnet_bastion_publica" {
   subnet_id      = aws_subnet.ljc_subnet_bastion_a.id
   route_table_id = aws_route_table.rt_publica.id
 }
+
+
+
+
+data "aws_availability_zones" "available" {}
